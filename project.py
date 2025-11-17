@@ -18,7 +18,9 @@ def arrive_at_bus_stop(buspax,train_arrival_time,t0):
    # modélise la marche des voyageurs cherchant le bus
    # renvoie le nombre de voyageurs qui arrivent à l'arrêt
    # à l'instant t0
-   return buspax*np.exp(-(t0-train_arrival_time)**2)
+   howmany = [0.10*buspax,0.40*buspax,0.45*buspax,0,0]
+   howmany = [int(elem) for elem in howmany]
+   return howmany[t0-train_arrival_time]
    
 def bus_departure(buspax,seats,stand_capacity):
    # modélise le départ d'un bus
