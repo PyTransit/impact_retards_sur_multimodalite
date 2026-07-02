@@ -111,7 +111,7 @@ def clock(values):
    
    
 def reset():
-    global tps,pax_arret,trains,late_trains,savings
+    global tps,pax_arrets,nb_arrets,trains,late_trains,savings
     global ax,line
     
     # supprime l'ancien graphe
@@ -120,10 +120,11 @@ def reset():
     
     # remet les paramètres à zéro
     tps = 1
-    pax_arret = 0
+    pax_arrets = [0,0]
+    nb_arrets = len(pax_arrets)
     trains = {}
     late_trains = []
-    savings = []
+    savings = [[] for _ in range(nb_arrets)]
     
 
 def launch():
