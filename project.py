@@ -1,4 +1,4 @@
-from random import uniform
+from random import uniform,randint
 
 # === MODEL FUNCTIONS ===
 
@@ -19,6 +19,14 @@ def arrive_at_bus_stop(buspax,train_arrival_time,t0):
    howmany = [0.10*buspax,0.40*buspax,0.45*buspax,0.05*buspax,0]
    howmany = [int(elem) for elem in howmany]
    return howmany[t0-train_arrival_time]
+
+def allocate(buspax,nb_arrets):
+    # modélise la répartition des voyageurs selon les différents arrêts de bus
+    # renvoie cette répartition
+    repartition = [0 for _ in range(nb_arrets)]
+    for i in range(buspax):
+        repartition[randint(0,nb_arrets)]+=1
+    return repartition
    
 def bus_departure(buspax,seats,stand_capacity):
    # modélise le départ d'un bus

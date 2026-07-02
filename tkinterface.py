@@ -7,12 +7,12 @@ import tkinter as tk
 
 # === GLOBAL VARIABLES ===
 tps = 1 # compteur de minutes
-pax_arret = 0 # nombre de personnes attendant le bus
+pax_arrets = [0,0] # nombre de personnes attendant le bus
 trains = {} # trains arrivés et passagers en transit vers le bus
             # clés = heure d'arrivée du train
             # valeur = nombre de passagers cherchant le bus
 late_trains = []
-savings = []
+savings = [[] for _ in range(len(pax_arrets))]
 # pour tkinter
 app = None
 fig = None
@@ -40,11 +40,11 @@ text_to_display = {
 # === EVENT MANAGEMENT ===
 
 def clock(values):
-   global tps,pax_arret,savings,trains,late_trains
+   global tps,pax_arrets,savings,trains,late_trains
    global app,ax,graph,line
 
    def step():
-       global tps,pax_arret,savings,trains,late_trains
+       global tps,pax_arrets,savings,trains,late_trains
        global app,ax,graph,line
        nonlocal values
        
@@ -76,14 +76,18 @@ def clock(values):
             if j==0: # nettoyer le dictionnaire en enlevant les trop bas
                 del trains[arrival]
             else:
-                pax_arret += j
+                repartition = allocate(j,len(pax_arrets))
+                for i in range(len(repartition)): # ajout arrêt par arrêt
+                    pax_arrets[i] += repartition[i]
 
           if tps%freq_bus==0:
-            gone, no_more_seats = bus_departure(pax_arret,seats,stand_capacity)
-            pax_arret -= gone
+              for i in range(len(pax_arrets)):
+                gone, no_more_seats = bus_departure(pax_arrets[i],seats,stand_capacity)
+                pax_arrets[i] -= gone
 
           # enregistre les informations
-          savings.append((tps,pax_arret))
+          for i in range(len(pax_arrets)):
+              savings[i].append((tps,pax_arrets[i]))
           # classe les informations
           times,pax = map(list,zip(*savings))
 
