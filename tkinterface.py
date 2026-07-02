@@ -8,11 +8,12 @@ import tkinter as tk
 # === GLOBAL VARIABLES ===
 tps = 1 # compteur de minutes
 pax_arrets = [0,0] # nombre de personnes attendant le bus
+nb_arrets = len(pax_arrets)
 trains = {} # trains arrivés et passagers en transit vers le bus
             # clés = heure d'arrivée du train
             # valeur = nombre de passagers cherchant le bus
 late_trains = []
-savings = [[] for _ in range(len(pax_arrets))]
+savings = [[] for _ in range(nb_arrets)]
 # pour tkinter
 app = None
 fig = None
@@ -76,17 +77,17 @@ def clock(values):
             if j==0: # nettoyer le dictionnaire en enlevant les trop bas
                 del trains[arrival]
             else:
-                repartition = allocate(j,len(pax_arrets))
+                repartition = allocate(j,nb_arrets)
                 for i in range(len(repartition)): # ajout arrêt par arrêt
                     pax_arrets[i] += repartition[i]
 
           if tps%freq_bus==0:
-              for i in range(len(pax_arrets)):
+              for i in range(nb_arrets):
                 gone, no_more_seats = bus_departure(pax_arrets[i],seats,stand_capacity)
                 pax_arrets[i] -= gone
 
           # enregistre les informations
-          for i in range(len(pax_arrets)):
+          for i in range(nb_arrets):
               savings[i].append((tps,pax_arrets[i]))
           # classe les informations
           times,pax = map(list,zip(*savings))
