@@ -7,8 +7,8 @@ import tkinter as tk
 
 # === GLOBAL VARIABLES ===
 tps = 1 # compteur de minutes
-pax_arrets = [0,0] # nombre de personnes attendant le bus
-nb_arrets = len(pax_arrets)
+nb_arrets = 5 # nombre de lignes de bus
+pax_arrets = [0 for _ in range(nb_arrets)] # nombre de personnes attendant le bus
 trains = {} # trains arrivés et passagers en transit vers le bus
             # clés = heure d'arrivée du train
             # valeur = nombre de passagers cherchant le bus
@@ -20,7 +20,7 @@ fig = None
 ax = None
 graph = None
 canvas = None
-line = None
+lines = [None for _ in range(nb_arrets)]
 frame = None
 launch_button = None
 parameters = {key:None for key in [
@@ -42,11 +42,11 @@ text_to_display = {
 
 def clock(values):
    global tps,pax_arrets,savings,trains,late_trains
-   global app,ax,graph,line
+   global app,ax,graph,lines
 
    def step():
        global tps,pax_arrets,savings,trains,late_trains
-       global app,ax,graph,line
+       global app,ax,graph,lines
        nonlocal values
        
        # pour éviter de tout modifier (faut avoir la flemme parfois ;)
@@ -89,11 +89,12 @@ def clock(values):
           # enregistre les informations
           for i in range(nb_arrets):
               savings[i].append((tps,pax_arrets[i]))
-          # classe les informations
-          times,pax = map(list,zip(*savings))
 
-          # met à jour le graphique
-          line.set_data(times,pax)
+              # classe les informations
+              times,pax = map(list,zip(*savings[i]))
+
+              # met à jour le graphique
+              lines[i].set_data(times,pax)
           ax.relim()
           ax.autoscale_view()
           graph.draw_idle()
@@ -112,19 +113,19 @@ def clock(values):
    
 def reset():
     global tps,pax_arrets,nb_arrets,trains,late_trains,savings
-    global ax,line
-    
-    # supprime l'ancien graphe
-    ax.cla()
-    line = ax.plot([],[],'r.-')[0]
+    global ax,lines
     
     # remet les paramètres à zéro
     tps = 1
-    pax_arrets = [0,0]
-    nb_arrets = len(pax_arrets)
+    nb_arrets = 5 # nombre de lignes de bus
+    pax_arrets = [0 for _ in range(nb_arrets)]
     trains = {}
     late_trains = []
     savings = [[] for _ in range(nb_arrets)]
+
+    # supprime l'ancien graphe
+    ax.cla()
+    lines = [ax.plot([],[],label=f'Ligne {i+1}')[0] for i in range(nb_arrets)]
     
 
 def launch():
@@ -165,7 +166,7 @@ def launch():
 def initialisation():
     # initialise l'interface graphique
     
-    global app,fig,ax,graph,frame,canvas,line,launch_button
+    global app,fig,ax,graph,frame,canvas,lines,launch_button
     global parameters,text_to_display
    
     # initialisation
@@ -181,7 +182,7 @@ def initialisation():
        canvas = graph.get_tk_widget()
        canvas.grid(row=0, column=0)
 
-       line = ax.plot([],[],'r.-')[0]
+       lines = [ax.plot([],[],label=f'Ligne {i+1}')[0] for i in range(nb_arrets)]
        
        # créer un espace user-friendly
        frame = tk.Frame(app)

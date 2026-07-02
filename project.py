@@ -25,7 +25,7 @@ def allocate(buspax,nb_arrets):
     # renvoie cette répartition
     repartition = [0 for _ in range(nb_arrets)]
     for i in range(buspax):
-        repartition[randint(0,nb_arrets)]+=1
+        repartition[randint(0,nb_arrets-1)]+=1
     return repartition
    
 def bus_departure(buspax,seats,stand_capacity):
