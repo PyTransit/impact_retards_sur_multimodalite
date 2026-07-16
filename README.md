@@ -1,7 +1,7 @@
 *Ce projet est lié au PyProject n°1 [Mesurer l'impact des retards sur les connexions multimodales](https://pytransit.wordpress.com/2025/11/15/preparer-le-terrain-et-explication-de-la-theorie/)*
 ______________________
 
-👉 Vous regardez actuellement le projet au stade de l'article du 10 juillet 2026.
+👉 Vous regardez actuellement le projet au stade de l'article du 23 juillet 2026.
 
 ____
 
@@ -34,8 +34,8 @@ Le fichier ``project.py`` contient
 Le fichier ``tkinterface.py`` contient 
 | Fonction | Ce qu'elle fait |
 |--|--|
-| lignes 9 à 39 | des variables globales permettant de stocker l'interface graphique entière ou une partie, ainsi que les variables de la simulation (``tps``, ``trains``,...) |
-| ``clock(values)`` | Actualise le graphique sur l'interface graphique tkinter et arrête la simulation au bout de ``period`` secondes. ``freq_train`` et ``freq_bus`` sont les intervalles constants séparant deux arrivées successives de trains/de bus. Prend en compte les retards. Cette partie est gérée par la sous-fonction ``step()``. Tous les paramètres sont contenus dans le dictionnaire ``values``. |
+| lignes 9 à 40 | des variables globales permettant de stocker l'interface graphique entière ou une partie, ainsi que les variables de la simulation (``tps``, ``trains``,...) |
+| ``clock(values)`` | Actualise le graphique sur l'interface graphique tkinter et arrête la simulation au bout de ``period`` secondes. ``freq_trains`` et ``freq_bus`` sont les intervalles constants séparant deux arrivées successives de trains/de bus. Prend en compte les retards. Cette partie est gérée par la sous-fonction ``step()``. Tous les paramètres sont contenus dans le dictionnaire ``values``. |
 | ``reset()`` | réinitialise les paramètres afin de reprendre la simulation de zéro |
 | ``launch()`` | lance la simulation à partir des données fournies par l'utilisateur |
 | ``initialisation()`` | construit l'interface graphique |
@@ -43,12 +43,14 @@ Le fichier ``tkinterface.py`` contient
 ## Lancer le projet
 
 Le projet fonctionne tout seul (ou presque, il faut quand même le lancer avec ``python`` via le terminal ou un IDE).\
-Une fois le projet lancé, l'interface graphique s'affichera avec des champs à compléter et un bouton pour lancer la simulation.
+Une fois le projet lancé, l'interface graphique s'affichera avec des champs à compléter et un bouton pour lancer la simulation.\
+**ATTENTION !** Les variables ``nb_trains``, ``freq_trains`` et ``nb_lines`` doivent être modifiées à la main.
 
 ## Liens
 
 Accéder aux articles du PyProject : [PyProject #1 (lien vers le blog)](https://pytransit.wordpress.com/pyproject-mesurer-limpact-des-retards-sur-les-connexions-multimodales/)\
 Accéder aux versions précédentes :
+- [version du 10 juillet 2026](https://github.com/PyTransit/impact_retards_sur_multimodalite/releases/tag/10juil2026)
 - [version du 1er février 2026](https://github.com/PyTransit/impact_retards_sur_multimodalite/releases/tag/01fev2026)
 - [version du 15 janvier 2026](https://github.com/PyTransit/impact_retards_sur_multimodalite/releases/tag/15jan2026)
 - [version du 15 novembre 2025 (corrigée)](https://github.com/PyTransit/impact_retards_sur_multimodalite/releases/tag/corr_exp)
