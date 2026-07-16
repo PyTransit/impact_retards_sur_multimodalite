@@ -9,6 +9,7 @@ import tkinter as tk
 tps = 1 # compteur de minutes
 nb_arrets = 5 # nombre de lignes de bus
 pax_arrets = [0 for _ in range(nb_arrets)] # nombre de personnes attendant le bus
+nb_trains = 3 # nombre de lignes de train
 trains = {} # trains arrivés et passagers en transit vers le bus
             # clés = heure d'arrivée du train
             # valeur = nombre de passagers cherchant le bus
@@ -51,21 +52,24 @@ def clock(values):
        
        # pour éviter de tout modifier (faut avoir la flemme parfois ;)
        period = int(values['period_input'])
-       freq_train = int(values['freqtrain_input'])
+       freq_trains = [randint(2,6) for _ in range(nb_trains)]
+       #freq_train = int(values['freqtrain_input'])
        freq_bus = int(values['freqbus_input'])
        
        # pour les nouvelles valeurs
        seats = int(values['seats_input'])
        stand_capacity = int(values['stand_input'])
-       late_rate = float(values['late_input'])
+       late_rates = [uniform(0,1) for _ in range(nb_trains)]
+       #late_rate = float(values['late_input'])
 
        if tps<=period:
-          if tps%freq_train==0:
-            delay = add_late(tps,late_rate)
-            if delay==0:
-                trains[tps] = goto_bus(train_arrival())
-            else:
-                late_trains.append(tps) # rappelle qu'un train en retard va arriver
+          for i in range(nb_trains):
+            if tps%freq_trains[i]==0:
+                delay = add_late(tps,late_rates[i])
+                if delay==0:
+                    trains[tps] = goto_bus(train_arrival())
+                else:
+                    late_trains.append(tps) # rappelle qu'un train en retard va arriver
 
           # un train en retard arrive ?
           if tps in late_trains:
@@ -112,11 +116,12 @@ def clock(values):
    
    
 def reset():
-    global tps,pax_arrets,nb_arrets,trains,late_trains,savings
+    global tps,pax_arrets,nb_arrets,trains,late_trains,savings,nb_trains
     global ax,lines
     
     # remet les paramètres à zéro
     tps = 1
+    nb_trains = 2 # nombre de lignes de train
     nb_arrets = 5 # nombre de lignes de bus
     pax_arrets = [0 for _ in range(nb_arrets)]
     trains = {}
